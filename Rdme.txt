@@ -1,0 +1,3 @@
+docker build --build-arg file_path="./service2/index.html" -t service2 .
+
+docker build --build-arg file_path="./service1/index.html" -t service1 .
