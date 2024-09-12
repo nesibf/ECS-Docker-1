@@ -23,10 +23,6 @@ resource "aws_appautoscaling_policy" "scale_up_policy" {
   }
 }
 
-
-
-
-
 resource "aws_appautoscaling_policy" "scale_down_policy" {
   name               = "scale_down_policy"
   depends_on         = [aws_appautoscaling_target.ecs_target]
@@ -44,37 +40,20 @@ resource "aws_appautoscaling_policy" "scale_down_policy" {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
 # AWS Auto Scaling - CloudWatch Alarm CPU High
 #------------------------------------------------------------------------------
 resource "aws_cloudwatch_metric_alarm" "cpu_high" {
   alarm_name          = "cpu-high"
   comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = 3                              #"The number of periods over which data is compared to the specified threshold for max cpu metric alarm"
+  evaluation_periods  = 3                              # "The number of periods over which data is compared to the specified threshold for max cpu metric alarm"
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
-  period              = 60                        #"The number of periods over which data is compared to the specified threshold for min cpu metric alarm"
+  period              = 60                             # "The number of periods over which data is compared to the specified threshold for min cpu metric alarm"
   statistic           = "Maximum"
   threshold           = 80
   
-  alarm_actions = [aws_appautoscaling_policy.scale_up_policy.arn]
-
-  
+  alarm_actions = [aws_appautoscaling_policy.scale_up_policy.arn]  
 }
-
-
-
-
-
 
 # AWS Auto Scaling - CloudWatch Alarm CPU Low
 #------------------------------------------------------------------------------
@@ -89,6 +68,4 @@ resource "aws_cloudwatch_metric_alarm" "cpu_low" {
   threshold           = 10
   
   alarm_actions = [aws_appautoscaling_policy.scale_down_policy.arn]
-
-  
 }
